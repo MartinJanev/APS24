@@ -1,4 +1,4 @@
-package start;
+package Auditoriski.Prvi.Intro;
 
 import java.util.Scanner;
 
