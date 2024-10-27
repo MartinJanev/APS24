@@ -1,4 +1,4 @@
-package Auditoriski.ArrayLists;
+package Auditoriski.NiziListi;
 
 import java.util.Scanner;
 
@@ -26,7 +26,7 @@ public class RemoveDuplicates<E> {
 
         System.out.println(niza.toString());
 
-        RemoveDuplicates<Integer> pom = new RemoveDuplicates<Integer>();
+        RemoveDuplicates<Integer> pom = new RemoveDuplicates<>();
         pom.RemoveDuplicates(niza);
 
         System.out.println(niza.toString());

@@ -1,4 +1,4 @@
-package Auditoriski.ArrayLists;
+package Auditoriski.NiziListi;
 
 public class Polinom {
     Array<Integer> koeficienti;

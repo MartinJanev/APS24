@@ -1,12 +1,10 @@
 package Auditoriski.ArrayLists;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 public class SLL<E> {
     private SLLNode<E> first;
 
     public SLL() {
+        // Construct an empty SLL
         this.first = null;
     }
 
@@ -17,84 +15,80 @@ public class SLL<E> {
     public int size() {
         int listSize = 0;
         SLLNode<E> tmp = first;
-        while (tmp != null) {
+        while(tmp != null) {
             listSize++;
             tmp = tmp.succ;
         }
         return listSize;
     }
 
-
     @Override
     public String toString() {
         String ret = new String();
         if (first != null) {
-            SLLNode<E> temp = first;
-            ret += temp.element;
-            while (temp.succ != null) {
-                temp = temp.succ;
-                ret += "->" + temp.element;
+            SLLNode<E> tmp = first;
+            ret += tmp.element;
+            while (tmp.succ != null) {
+                tmp = tmp.succ;
+                ret += "->" + tmp.element;
             }
-        } else {
-            ret = "Prazna lista!!";
-        }
+        } else
+            ret = "Prazna lista!!!";
         return ret;
     }
 
-    public void insertFirst(E e) {
-        SLLNode<E> ins = new SLLNode<E>(e, null);
+    public void insertFirst(E o) {
+        SLLNode<E> ins = new SLLNode<E>(o, null);
         ins.succ = first;
+        //SLLNode<E> ins = new SLLNode<E>(o, first);
         first = ins;
     }
 
-    public void insertAfter(E e, SLLNode<E> node) {
+    public void insertAfter(E o, SLLNode<E> node) {
         if (node != null) {
-            SLLNode<E> ins = new SLLNode<E>(e, node.succ);
+            SLLNode<E> ins = new SLLNode<E>(o, node.succ);
             node.succ = ins;
         } else {
-            System.out.println("Dadeniot jazol e null");
+            System.out.println("Dadenot jazol e null");
         }
     }
+    public void insertBefore(E o, SLLNode<E> before) {
 
-    public void insertBefore(E e, SLLNode<E> node) {
-        if (node != null) {
-            SLLNode<E> temp = first;
-            if (first == node) {
-                this.insertFirst(e);
+        if (first != null) {
+            SLLNode<E> tmp = first;
+            if(first==before){
+                this.insertFirst(o);
                 return;
             }
-            //first !=node
-            while (temp.succ != node && temp.succ != null) {
-                temp = temp.succ;
-                if (temp.succ == node) {
-                    temp.succ = new SLLNode<E>(e, node);
-                } else {
-                    System.out.println("Dadeniot element ne postoi");
-                }
+            //ako first!=before
+            while (tmp.succ != before && tmp.succ!=null)
+                tmp = tmp.succ;
+            if (tmp.succ == before) {
+                tmp.succ = new SLLNode<E>(o, before);;
+            } else {
+                System.out.println("Elementot ne postoi vo listata");
             }
         } else {
-            System.out.println("Dadenata lista e prazna");
+            System.out.println("Listata e prazna");
         }
-
     }
 
-    public void insertLast(E e) {
+    public void insertLast(E o) {
         if (first != null) {
-            SLLNode<E> temp = first;
-            while (temp.succ != null) {
-                temp = temp.succ;
-            }
-            temp.succ = new SLLNode<E>(e, null);
+            SLLNode<E> tmp = first;
+            while (tmp.succ != null)
+                tmp = tmp.succ;
+            tmp.succ = new SLLNode<E>(o, null);
         } else {
-            insertFirst(e);
+            insertFirst(o);
         }
     }
 
     public E deleteFirst() {
         if (first != null) {
-            SLLNode<E> temp = first;
+            SLLNode<E> tmp = first;
             first = first.succ;
-            return temp.element;
+            return tmp.element;
         } else {
             System.out.println("Listata e prazna");
             return null;
@@ -103,24 +97,24 @@ public class SLL<E> {
 
     public E delete(SLLNode<E> node) {
         if (first != null) {
-            SLLNode<E> temp = first;
-            if (first == node) {
+            SLLNode<E> tmp = first;
+            if(first == node) {
                 return this.deleteFirst();
             }
-            while (temp.succ != node && temp.succ.succ != null)
-                temp = temp.succ;
-            if (temp.succ == node) {
-                temp.succ = temp.succ.succ;
+            while (tmp.succ != node && tmp.succ.succ != null)
+                tmp = tmp.succ;
+            if (tmp.succ == node) {
+                tmp.succ = tmp.succ.succ;
                 return node.element;
             } else {
-                System.out.println("Element ne postoi vo listata");
+                System.out.println("Elementot ne postoi vo listata");
                 return null;
             }
-
         } else {
             System.out.println("Listata e prazna");
             return null;
         }
+
     }
 
     public SLLNode<E> getFirst() {
@@ -135,7 +129,7 @@ public class SLL<E> {
             if (tmp.element.equals(o)) {
                 return tmp;
             } else {
-                System.out.println("Elementot ne postoi vo nizata");
+                System.out.println("Elementot ne postoi vo listata");
             }
         } else {
             System.out.println("Listata e prazna");
@@ -143,111 +137,32 @@ public class SLL<E> {
         return null;
     }
 
-    public Iterator<E> iterator() {
-        return new LRIterator<E>();
-    }
-
-    private class LRIterator<E> implements Iterator<E> {
-        private SLLNode<E> place, current;
-
-        private LRIterator() {
-            place = (SLLNode<E>) first;
-            current = null;
+    public void merge (SLL<E> in){
+        if (first != null) {
+            SLLNode<E> tmp = first;
+            while(tmp.succ != null)
+                tmp = tmp.succ;
+            tmp.succ = in.getFirst();
         }
-
-        public boolean hasNext() {
-            return (place != null);
-        }
-
-        public E next() {
-            if (place == null) {
-                throw new NoSuchElementException();
-            }
-            E nextElement = place.element;
-            current = place;
-            place = place.succ;
-            return nextElement;
-        }
-
-        public void remove() {
-
+        else{
+            first = in.getFirst();
         }
     }
 
     public void mirror() {
         if (first != null) {
-            SLLNode<E> temp = first;
+            //m=nextsucc, p=tmp,q=next
+            SLLNode<E> tmp = first;
             SLLNode<E> newsucc = null;
             SLLNode<E> next;
 
-            while (temp != null) {
-                next = temp.succ;
-                temp.succ = newsucc;
-                newsucc = temp;
-                temp = next;
+            while(tmp != null){
+                next = tmp.succ;
+                tmp.succ = newsucc;
+                newsucc = tmp;
+                tmp = next;
             }
             first = newsucc;
         }
-    }
-
-    public void merge(SLL<E> in) {
-        if (first != null) {
-            SLLNode<E> temp = first;
-            while (temp.succ != null)
-                temp = temp.succ;
-            temp.succ = in.getFirst();
-        } else {
-            first = in.getFirst();
-        }
-    }
-
-    public SLLNode<E> reverseList(SLLNode<E> node) {
-        SLLNode<E> prev = null, curr = node, next;
-        while (curr != null) {
-            next = curr.succ;
-            curr.succ = prev;
-            prev = curr;
-            curr = next;
-        }
-        node = prev;
-        return node;
-    }
-
-    public void rearrange() {
-        //Find Middle
-        SLLNode<E> sredina = this.getFirst();
-        for (int i = 1; i < this.size() / 2; i++) {
-            sredina = sredina.succ;
-        }
-        System.out.println(sredina.element);
-
-        //Split list into 2 lists
-        SLLNode<E> node1 = this.getFirst();
-        SLLNode<E> node2 = sredina.succ;
-        sredina.succ = null;
-
-        //Flip the second half
-        node2 = reverseList(node2);
-
-        //Alternately connect the nodes
-        SLLNode<E> node = new SLLNode<>(null, null);
-
-
-        SLLNode<E> curr = node;
-
-        while (node1 != null || node2 != null) {
-            if (node1 != null) {
-                curr.succ = node1;
-                curr = curr.succ;
-                node1 = node1.succ;
-            }
-
-            if (node2 != null) {
-                curr.succ = node2;
-                curr = curr.succ;
-                node2 = node2.succ;
-            }
-        }
-        node = node.succ;
     }
 }

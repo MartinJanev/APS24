@@ -1,4 +1,4 @@
-package Auditoriski.VovedJava;
+package VovedJava;
 
 import java.util.Scanner;
 

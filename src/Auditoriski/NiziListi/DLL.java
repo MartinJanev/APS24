@@ -1,4 +1,4 @@
-package Auditoriski.ArrayLists;
+package Auditoriski.NiziListi;
 
 public class DLL<E extends Comparable<E>> {
     private DLLNode<E> first, last;
@@ -11,6 +11,16 @@ public class DLL<E extends Comparable<E>> {
     public void deleteList() {
         first = null;
         last = null;
+    }
+
+    public int getSize() {
+        int listSize = 0;
+        DLLNode<E> temp = first;
+        while (temp != null) {
+            listSize++;
+            temp = temp.succ;
+        }
+        return listSize;
     }
 
     public int length() {
@@ -31,9 +41,10 @@ public class DLL<E extends Comparable<E>> {
     public DLLNode<E> find(E o) {
         if (first != null) {
             DLLNode<E> tmp = first;
-            while (tmp.element != o && tmp.succ != null) {
+            while (tmp.element != o && tmp.succ != null) { //dodeka ne go najde ili e kraj
                 tmp = tmp.succ;
             }
+            //proverka na sto pricinalo da izleze od while-ot
             if (tmp.element == o) {
                 return tmp;
             } else {
@@ -46,51 +57,67 @@ public class DLL<E extends Comparable<E>> {
     }
 
     public void insertFirst(E o) {
-        DLLNode<E> ins = new DLLNode<>(o, null, first);
-        if (first == null) {
-            last = ins;
+        DLLNode<E> ins = new DLLNode<>(o, null, first); //sledbenik e orig. prv
+        if (first == null) { // ako nema jazol
+            last = ins; //prethodno null sega ke e noviot jazol
         } else {
-            first.pred = ins;
+            first.pred = ins; // ako ima, odi kon nego
         }
-        first = ins;
+        first = ins; //sega stanuva prv
     }
 
 
     public void insertLast(E o) {
         if (first == null) {
-            insertFirst(o);
+            insertFirst(o); //ako nema, isto e
         } else {
-            DLLNode<E> ins = new DLLNode<>(o, last, null);
-            last.succ = ins;
-            last = ins;
+            DLLNode<E> ins = new DLLNode<>(o, last, null); //prethodnik bil orig. posleden
+            last.succ = ins; //sledbenik mu e noviot
+            last = ins; // sega noviot e posleden
         }
     }
 
     public void insertAfter(E o, DLLNode<E> after) {
         if (after == last) {
-            insertLast(o);
+            insertLast(o); //ako e vekje posleden
             return;
         }
-        DLLNode<E> ins = new DLLNode<E>(o, after, after.succ);
-        after.succ.pred = ins;
-        after.succ = ins;
+        DLLNode<E> ins = new DLLNode<E>(o, after, after.succ); //prethodnik i sledbenik
+        after.succ.pred = ins; //levata strelka <-
+        after.succ = ins;//desnata strelka ->
     }
 
     public void insertBefore(E o, DLLNode<E> before) {
         if (before == first) {
-            insertFirst(o);
+            insertFirst(o);//ako e vekje prv
             return;
         }
-        DLLNode<E> ins = new DLLNode<E>(o, before.pred, before);
-        before.pred.succ = ins;
-        before.pred = ins;
+        DLLNode<E> ins = new DLLNode<E>(o, before.pred, before);//prethodnik i sledbenik
+        before.pred.succ = ins; //desnata strelka ->
+        before.pred = ins;//levata strelka <-
+    }
+
+    public void mirror() {
+        DLLNode<E> current = this.first;
+        while (current != null) {
+            DLLNode<E> pred = current.pred;
+            DLLNode<E> succ = current.succ;
+
+            current.succ = pred;
+            current.pred = succ;
+            current = succ;
+        }
+
+        current = last;
+        last = first;
+        first = current;
     }
 
     public E deleteFirst() {
-        if (first != null) {
+        if (first != null) {//ako ima nesto
             DLLNode<E> tmp = first;
-            first = first.succ;
-            if (first != null) {
+            first = first.succ; //go nosime na vtoriot
+            if (first != null) {//ako ima nesto pred nego
                 first.pred = null;
             }
             if (first == null) {
@@ -118,17 +145,17 @@ public class DLL<E extends Comparable<E>> {
     }
 
     public E delete(DLLNode<E> node) {
-        if (node == first) {
+        if (node == first) { //ako e prv
             deleteFirst();
             return node.element;
         }
-        if (node == last) {
+        if (node == last) { //ako e posleden
             deleteLast();
             return node.element;
         }
         node.pred.succ = node.succ;
         node.succ.pred = node.pred;
-        return node.element;
+        return node.element; //ne pokazuva nisto KON nego = Garbage Collection
     }
 
     @Override
@@ -196,7 +223,6 @@ public class DLL<E extends Comparable<E>> {
             while (tmp.succ != null) {
                 while (tmp2 != null) {
                     if (tmp.element.compareTo(tmp2.element) == 0) {
-                        tmp.numberApperances++;
                         if (tmp2.succ != null) {
                             tmp2 = tmp2.succ;
                             this.delete(tmp2.pred);

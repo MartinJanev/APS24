@@ -1,4 +1,4 @@
-package Auditoriski.ArrayLists;
+package Auditoriski.NiziListi;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,13 +12,6 @@ public class RazdeliLista<E> {
 
         SLLNode<Integer> pom = lista.getFirst();
         while (pom != null) {
-            while (pom.succ != null && pom.element % 2 == 0 && pom.succ.element % 2 == 0) {
-                pom = pom.succ;
-            }
-            while (pom.succ != null && !(pom.element % 2 == 0)) {
-                pom = pom.succ;
-            }
-
             if (pom.element % 2 == 0) {
                 parni.insertLast(pom.element);
             } else {

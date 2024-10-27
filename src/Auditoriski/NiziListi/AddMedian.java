@@ -1,4 +1,4 @@
-package Auditoriski.ArrayLists;
+package Auditoriski.NiziListi;
 
 import java.util.Scanner;
 

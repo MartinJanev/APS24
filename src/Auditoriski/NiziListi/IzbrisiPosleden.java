@@ -1,8 +1,8 @@
-package Auditoriski.ArrayLists;
+package Auditoriski.NiziListi;
 
 import java.util.Scanner;
 
-public class IzbrisiPosleden<E extends Comparable<E>> {
+public class IzbrisiPosleden<E> {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();

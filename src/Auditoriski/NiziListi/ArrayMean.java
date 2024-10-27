@@ -1,4 +1,4 @@
-package Auditoriski.ArrayLists;
+package Auditoriski.NiziListi;
 
 //За дадена низа од N (1<=N<=50) природни броеви, да се наjде броjот коj е наjб-
 //лиску до нивниот просек. Ако постоjат два броjа со исто растоjание до просекот,
