@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class StringsFront {
 
-    public class SLLNode<E> {
+    class SLLNode<E> {
         protected E element;
         protected SLLNode<E> succ;
 
@@ -29,7 +29,7 @@ public class StringsFront {
         }
     }
 
-    public class SLL<E> {
+    class SLL<E> {
         private SLLNode<E> first;
 
         public SLL() {
@@ -261,23 +261,17 @@ public class StringsFront {
         int length = sc.nextInt();
 
         SLLNode<String> tmp = sll.getFirst();
-        SLLNode<String> prev = null;
+
+        SLLNode<String> mover = null;
 
         while (tmp != null) {
             if (tmp.element.length() == length) {
-                if (prev == null) {
-                    tmp = tmp.succ;
-                } else {
-                    prev.succ = tmp.succ;
-                    tmp.succ = sll.getFirst();
-                    sll.setFirst(tmp);
-                    tmp = prev.succ;
-                }
-            } else {
-                prev = tmp;
-                tmp = tmp.succ;
+                mover=tmp;
             }
+            tmp = tmp.succ;
         }
+        sll.insertFirst(mover.element);
+        sll.delete(mover);
         System.out.println(sll.toString());
     }
 }

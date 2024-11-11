@@ -1,23 +1,23 @@
+package Zadaci.AlgoArchetype;
+
 import java.util.Scanner;
 
 public class MaxSubsequenceSum {
 
 //O(n)
 
-    public static int maxSubsequenceSum(int[] arr, int n) {
-        int mSum = 0, maxSum = 0;
-        for (int j = 0; j < n; j++) {
-            mSum += arr[j];
-            if (mSum > maxSum) {
-                maxSum = mSum;
+    public static int maxSubsequenceSum(int[] nums) {
+        int n = nums.length;
+        int max = Integer.MIN_VALUE, sum = 0;
 
-            } else {
-                if (mSum < 0) {
-                    mSum = 0;
-                }
-            }
+        for (int i = 0; i < n; i++) {
+            sum += nums[i];
+            max = Math.max(sum, max);
+
+            if (sum < 0) sum = 0;
         }
-        return maxSum;
+
+        return max;
     }
 
 // O(nlog2n)
@@ -62,6 +62,6 @@ public class MaxSubsequenceSum {
         for (int i = 0; i < n; i++) {
             arr[i] = scanner.nextInt();
         }
-        System.out.println(maxSubsequenceSum(arr, n));
+        System.out.println(maxSubsequenceSum(arr));
     }
 }

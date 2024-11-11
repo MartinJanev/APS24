@@ -29,19 +29,6 @@ public class Array {
 
     public static void print(int[] arr, int value) {
 
-// 1 решение за печатење
-
-//        System.out.print("{");
-//        for (int i = 0; i < value; i++) {
-//            if (i==value-1){
-//                System.out.print(arr[i]);
-//            }else {
-//                System.out.print(arr[i] + ",");
-//            }
-//        }
-//        System.out.println("}");
-
-
 // 2 решение за печатење - помалку чекори би се извршиле (нема потреба од проверки)
 
         System.out.print("{"+arr[0]);
