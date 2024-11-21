@@ -15,30 +15,30 @@ public class Meetings {
             }
         }
 
-        int cnt = 1;
+        int max = 1;
         for (int i = 0; i < n; i++) {
-            int cnt1 = 1;
+            int numOverlapping = 1;
             for (int j = 0; j < n; j++) {
                 if (i != j) {
                     if (arr[j][0] <= arr[i][0] && arr[j][1] >= arr[i][0])
-                        cnt1++;
+                        numOverlapping++;
                 }
 
             }
-            cnt = Math.max(cnt, cnt1);
-            cnt1 = 1;
+            max = Math.max(max, numOverlapping);
+            numOverlapping = 1;
             for (int j = 0; j < n; j++) {
                 if (i != j) {
                     if (arr[j][0] <= arr[i][1] && arr[j][1] >= arr[i][1])
-                        cnt1++;
+                        numOverlapping++;
                 }
 
             }
-            cnt = Math.max(cnt, cnt1);
+            max = Math.max(max, numOverlapping);
 
 
         }
-        System.out.print(cnt);
+        System.out.print(max);
 
     }
 }

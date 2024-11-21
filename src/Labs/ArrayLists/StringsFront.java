@@ -172,38 +172,38 @@ public class StringsFront {
             return null;
         }
 
-        public Iterator<E> iterator() {
-            return new LRIterator<E>();
-        }
-
-        private class LRIterator<E> implements Iterator<E> {
-            private SLLNode<E> place, current;
-
-            public LRIterator() {
-                place = (SLLNode<E>) first;
-                current = null;
-            }
-
-            @Override
-            public boolean hasNext() {
-                return place != null;
-            }
-
-            @Override
-            public E next() {
-                if (place == null) {
-                    throw new NoSuchElementException();
-                }
-                E nextElement = place.element;
-                current = place;
-                place = place.succ;
-                return nextElement;
-            }
-
-            public void delete() {
-
-            }
-        }
+//        public Iterator<E> iterator() {
+//            return new LRIterator<E>();
+//        }
+//
+//        private class LRIterator<E> implements Iterator<E> {
+//            private SLLNode<E> place, current;
+//
+//            public LRIterator() {
+//                place = (SLLNode<E>) first;
+//                current = null;
+//            }
+//
+//            @Override
+//            public boolean hasNext() {
+//                return place != null;
+//            }
+//
+//            @Override
+//            public E next() {
+//                if (place == null) {
+//                    throw new NoSuchElementException();
+//                }
+//                E nextElement = place.element;
+//                current = place;
+//                place = place.succ;
+//                return nextElement;
+//            }
+//
+//            public void delete() {
+//
+//            }
+//        }
 
         public void mirror() {
             if (first != null) {
@@ -254,24 +254,32 @@ public class StringsFront {
         sc.nextLine();
 
         for (int i = 0; i < N; i++) {
-            String str = sc.nextLine();
+            String str = sc.next();
             sll.insertLast(str);
         }
+        System.out.println(sll.toString());
 
         int length = sc.nextInt();
+        sc.nextLine();
 
         SLLNode<String> tmp = sll.getFirst();
 
         SLLNode<String> mover = null;
 
+
+        boolean flag = false;
         while (tmp != null) {
             if (tmp.element.length() == length) {
-                mover=tmp;
+                mover = tmp;
+                flag = true;
             }
             tmp = tmp.succ;
         }
-        sll.insertFirst(mover.element);
-        sll.delete(mover);
+        if (flag) {
+            sll.insertFirst(mover.element);
+            sll.delete(mover);
+        }
         System.out.println(sll.toString());
+
     }
 }

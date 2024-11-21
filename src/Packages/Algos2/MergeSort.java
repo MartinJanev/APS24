@@ -1,11 +1,6 @@
 package Packages.Algos2;
 
 public class MergeSort {
-
-    int INF = 1000000;
-
-    //spojuvanje na dve sortirani nizi [l, mid], [mid+1, r]
-    //rezultatot e nova sortirana niza
     void merge(int a[], int l, int mid, int r) {
         int numel = r - l + 1;
         int temp[] = new int[100]; //nova niza za privremeno cuvanje na sortiranite elementi

@@ -1,5 +1,7 @@
 package Zadaci.Dinamicko;
 
+import java.util.Scanner;
+
 public class KnapsackDinamicko {
 
     public static int knapsack(int capacity, int[] weights, int[] values) {
@@ -35,14 +37,31 @@ public class KnapsackDinamicko {
 
     public static void main(String[] args) {
 
-        int capacity = 10;
-        int[] values = {1, 4, 8, 5};
-        int[] weights = {3, 3, 5, 6};
-        System.out.println(knapsack(capacity, weights, values)); // Output maximum profit
 
-        capacity = 7;
-        values = new int[]{2, 2, 4, 5, 3};
-        weights = new int[]{3, 1, 3, 4, 2};
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(); // Number of items
+        int capacity = sc.nextInt(); // Capacity of the knapsack
+
+        int[] values = new int[n];
+        int[] weights = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            weights[i] = sc.nextInt();
+        }
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextInt();
+        }
+
+//
+//        int capacity = 10;
+//        int[] values = {1, 4, 8, 5};
+//        int[] weights = {3, 3, 5, 6};
+//        System.out.println(knapsack(capacity, weights, values)); // Output maximum profit
+
+//        capacity = 7;
+//        values = new int[]{2, 2, 4, 5, 3};
+//        weights = new int[]{3, 1, 3, 4, 2};
+
         System.out.println(knapsack(capacity, weights, values)); // Output maximum profit
     }
 }

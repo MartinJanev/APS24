@@ -3,7 +3,7 @@ package Zadaci.Dinamicko.Videa;
 import java.util.Arrays;
 
 public class MinCoinsBU {
-    public static int minCoins(int m, int[] coins) {
+    public static int coinChange(int[] coins, int m) {
         int[] dp = new int[m + 1];
         Arrays.fill(dp, m + 1); // Fill the array with a value greater than the maximum value of m
         dp[0] = 0;
@@ -21,6 +21,6 @@ public class MinCoinsBU {
 
     public static void main(String[] args) {
         int[] coins = {1, 2, 5};
-        System.out.println(minCoins(11, coins));
+        System.out.println(coinChange(coins, 11));
     }
 }

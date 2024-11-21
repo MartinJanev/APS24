@@ -18,13 +18,13 @@ public class TicketQueuing {
         long[] dp = new long[n + 1];
         dp[0] = 0; //We don't need to serve the 0-th customer
         dp[1] = t[1]; //We need to serve the 1-st customer
-        c[1] = 0; //
+        c[1] = 0; // The 1-st customer is served alone
 
         for (int i = 2; i <= n; i++) {
-            if (dp[i - 1] + t[i] > dp[i - 2] + p[i - 1]) {
+            if (dp[i - 1] + t[i] > dp[i - 2] + p[i - 1]) { //If it's better to serve the i-th customer with the previous one
                 dp[i] = dp[i - 2] + p[i - 1];
                 c[i] = 1;
-            } else {
+            } else { //If it's better to serve the i-th customer alone
                 dp[i] = dp[i - 1] + t[i];
                 c[i] = 0;
             }
@@ -44,7 +44,7 @@ public class TicketQueuing {
         for (int i = 0; i < n; i++) {
             p[i] = sc.nextInt();
         }
-        long[] c = new long[n + 1];
+        long[] c = new long[n + 1]; //0 if the i-th customer is served alone, 1 if the i-th customer is served with the previous one
         long[] dp = calculateDP(n, t, p, c);
         System.out.println(dp[n - 1]);
         printPairs(n, c);

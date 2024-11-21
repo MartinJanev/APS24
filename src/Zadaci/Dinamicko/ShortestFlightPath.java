@@ -15,7 +15,9 @@ public class ShortestFlightPath {
             //svrti gi prethodite resenija (i-ovci)
             for (int i = 0; i < j; i++) { //gradot od koj sto imame cena od prethodno
                 int cena = best[i] + cost[i][j] + airportTax[j]; //najdobra cena od prethodno + cena od toj do segasniot grad + taksa na segasniot grad
-                min = Math.min(min, cena); //ako e pomala od min, min = cena - dali cenata da otideme od sosedniot grad do j e pomala od min,t.e mozebi nekoj pred prethodnikot
+                //if (cena < min) min = cena - if the price to go from the previous city to j is less than min, min = price
+                //That is whether the price to go from the neighboring city to j is less than min, i.e. maybe some before the previous one
+                min = Math.min(min, cena);
             }
 
             //sme gi svtele site mozni opcii. Najdena e najniskata cena
