@@ -1,4 +1,4 @@
-package Packages.GraphAlgos;
+package Packages.GraphsAlgos.matrica_tezinski_nenasocen;
 
 import java.util.List;
 import java.util.Scanner;

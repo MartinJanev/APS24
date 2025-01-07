@@ -1,4 +1,4 @@
-package lista_netezinski_nasocen;
+package Packages.GraphsAlgos.lista_netezinski_nasocen;
 
 public class TopologicalSortTester {
 

@@ -77,7 +77,7 @@ public class AdjacencyListGraph<T> {
         DFSUtil(startVertex, visited);
     }
 
-    private void DFSUtil(T vertex, Set<T> visited) {
+    public void DFSUtil(T vertex, Set<T> visited) {
         // Mark the current node as visited and print it
         visited.add(vertex);
         System.out.print(vertex + " ");

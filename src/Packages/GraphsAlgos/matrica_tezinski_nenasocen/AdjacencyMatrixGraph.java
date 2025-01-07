@@ -1,4 +1,4 @@
-package Packages.GraphAlgos;
+package Packages.GraphsAlgos.matrica_tezinski_nenasocen;
 
 import java.util.*;
 
@@ -31,17 +31,17 @@ public class AdjacencyMatrixGraph<T> {
 		matrix[source][destination] = weight;
 		matrix[destination][source] = weight; // For undirected graph
 		}
-	
+
 	public boolean isEdge(int source, int destination) {
 		return matrix[source][destination] !=0;
 	}
-	
-	
+
+
 	public void removeEdge(int source, int destination) {
 		matrix[source][destination] = 0;
 		matrix[destination][source] = 0; // For undirected graph
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void removeVertex(int vertexIndex) {
 		if (vertexIndex < 0 || vertexIndex >= numVertices) {
@@ -67,7 +67,7 @@ public class AdjacencyMatrixGraph<T> {
 		vertices = newVertices;
 		numVertices--;
 	}
-	
+
 	public List<T> getNeighbors(int vertexIndex) {
 		List<T> neighbors = new ArrayList<>();
 		for (int i = 0; i < matrix[vertexIndex].length; i++) {
@@ -113,9 +113,9 @@ public class AdjacencyMatrixGraph<T> {
 		List<Edge> mstEdges = new ArrayList<>();
 		List<Edge> allEdges = getAllEdges();
 
-		allEdges.sort(Comparator.comparingInt(Edge::getWeight));
+		allEdges.sort(Comparator.comparingInt(Edge::getWeight)); //da si ja implementirame compareto metoda za sortiranje
 
-		int trees[] = new int[numVertices];
+		int trees[] = new int[numVertices]; // za doma so set
 
 		for(int i=0;i<numVertices;i++)
 			trees[i] = i;
@@ -145,7 +145,7 @@ public class AdjacencyMatrixGraph<T> {
 
 		for(int i=0;i<numVertices;i++) {
 			if(isEdge(startVertexIndex,i)) {
-				q.add(new Edge(startVertexIndex, i, matrix[startVertexIndex][i]));
+				q.add(new Edge(startVertexIndex, i, matrix[startVertexIndex][i])); //site potencijalni
 			}
 		}
 
@@ -182,7 +182,7 @@ public class AdjacencyMatrixGraph<T> {
 
 		return mstEdges;
 	}
-	
+
 	@Override
 	public String toString() {
 		String ret = "  ";
@@ -197,7 +197,7 @@ public class AdjacencyMatrixGraph<T> {
 		}
 		return ret;
 	}
-	
+
 }
 
 

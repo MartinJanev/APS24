@@ -1,4 +1,4 @@
-package Packages.GraphAlgos;
+package Packages.GraphsAlgos.lista_tezinski_nenasocen;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -10,7 +10,7 @@ public class Plumbing {
         int n = sc.nextInt();
 
         AdjacencyListGraph<Integer> waterNetwork = new AdjacencyListGraph<>();
-        int values[] = new int[n];
+        int values[] = new int[n]; //nadmorska visina
 
         for(int i=0;i<n;i++) {
             int ind = sc.nextInt();

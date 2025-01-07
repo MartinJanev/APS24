@@ -1,4 +1,4 @@
-package Packages.GraphAlgos;
+package Packages.GraphsAlgos.matrica_tezinski_nenasocen;
 
 public class Edge {
     private int fromVertex, toVertex;

@@ -1,9 +1,9 @@
-package lista_netezinski_nasocen;
+package Packages.GraphsAlgos.lista_tezinski_nenasocen;
 
 import java.util.*;
 
 public class AdjacencyListGraph<T> {
-	private Map<T, Set<T>> adjacencyList;
+	private Map<T, Map<T, Integer>> adjacencyList;
 
 	public AdjacencyListGraph() {
 		this.adjacencyList = new HashMap<>();
@@ -12,14 +12,14 @@ public class AdjacencyListGraph<T> {
 	// Add a vertex to the graph
 	public void addVertex(T vertex) {
 		if (!adjacencyList.containsKey(vertex)) {
-			adjacencyList.put(vertex, new HashSet<>());
+			adjacencyList.put(vertex, new HashMap<>());
 		}
 	}
 
 	// Remove a vertex from the graph
 	public void removeVertex(T vertex) {
 		// Remove the vertex from all adjacency lists
-		for (Set<T> neighbors : adjacencyList.values()) {
+		for (Map<T, Integer> neighbors : adjacencyList.values()) {
 			neighbors.remove(vertex);
 		}
 		// Remove the vertex's own entry in the adjacency list
@@ -27,11 +27,12 @@ public class AdjacencyListGraph<T> {
 	}
 
 	// Add an edge to the graph
-	public void addEdge(T source, T destination) {
+	public void addEdge(T source, T destination, int weight) {
 		addVertex(source);
 		addVertex(destination);
 
-		adjacencyList.get(source).add(destination);
+		adjacencyList.get(source).put(destination, weight);
+		adjacencyList.get(destination).put(source, weight); // for undirected graph
 	}
 
 	// Remove an edge from the graph
@@ -39,11 +40,14 @@ public class AdjacencyListGraph<T> {
 		if (adjacencyList.containsKey(source)) {
 			adjacencyList.get(source).remove(destination);
 		}
+		if (adjacencyList.containsKey(destination)) {
+			adjacencyList.get(destination).remove(source); // for undirected graph
+		}
 	}
 
 	// Get all neighbors of a vertex
-	public Set<T> getNeighbors(T vertex) {
-		return adjacencyList.getOrDefault(vertex, new HashSet<>());
+	public Map<T, Integer> getNeighbors(T vertex) {
+		return adjacencyList.getOrDefault(vertex, new HashMap<>());
 	}
 	
 	public void DFS(T startVertex) {
@@ -57,7 +61,7 @@ public class AdjacencyListGraph<T> {
 		System.out.print(vertex + " ");
 		
 		// Recur for all the vertices adjacent to this vertex
-		for (T neighbor : getNeighbors(vertex)) {
+		for (T neighbor : getNeighbors(vertex).keySet()) {
 			if (!visited.contains(neighbor)) {
 				DFSUtil(neighbor, visited);
 			}
@@ -75,7 +79,7 @@ public class AdjacencyListGraph<T> {
 			if (!visited.contains(vertex)) {
 				visited.add(vertex);
 				System.out.print(vertex + " ");
-				for (T neighbor : getNeighbors(vertex)) {
+				for (T neighbor : getNeighbors(vertex).keySet()) {
 					if (!visited.contains(neighbor)) {
 						stack.push(neighbor);
 					}
@@ -94,7 +98,7 @@ public class AdjacencyListGraph<T> {
 			T vertex = stack.peek();
 
 			boolean f = true;
-			for(T neighbor: getNeighbors(vertex)) {
+			for(T neighbor: getNeighbors(vertex).keySet()) {
 				if(!visited.contains(neighbor)) {
 					stack.push(neighbor);
 					visited.add(neighbor);
@@ -130,7 +134,7 @@ public class AdjacencyListGraph<T> {
 			T vertex = queue.poll();
 			System.out.print(vertex + " ");
 
-			for (T neighbor : getNeighbors(vertex)) {
+			for (T neighbor : getNeighbors(vertex).keySet()) {
 				if (!visited.contains(neighbor)) {
 					visited.add(neighbor);
 					queue.add(neighbor);
@@ -139,39 +143,45 @@ public class AdjacencyListGraph<T> {
 		}
 	}
 
-	// DFS utility function used for topological sorting
-	private void topologicalSortUtil(T vertex, Set<T> visited, Stack<T> stack) {
-		visited.add(vertex);
-		for (T neighbor : getNeighbors(vertex)) {
-			if (!visited.contains(neighbor)) {
-				topologicalSortUtil(neighbor, visited, stack);
-			}
-		}
-		stack.push(vertex);
-	}
+	public Map<T, Integer> shortestPath(T startVertex) {
+		Map<T, Integer> distances = new HashMap<>();
+		PriorityQueue<T> queue = new PriorityQueue<>(Comparator.comparingInt(distances::get));
+		Set<T> explored = new HashSet<>();
 
-	public List<T> topologicalSort() {
-		Stack<T> stack = new Stack<>();
-		Set<T> visited = new HashSet<>();
-
+		// Initialize distances
 		for (T vertex : adjacencyList.keySet()) {
-			if (!visited.contains(vertex)) {
-				topologicalSortUtil(vertex, visited, stack);
+			distances.put(vertex, Integer.MAX_VALUE);
+		}
+		distances.put(startVertex, 0);
+
+		queue.add(startVertex);
+
+		while (!queue.isEmpty()) {
+			T current = queue.poll();
+			explored.add(current);
+
+			for (Map.Entry<T, Integer> neighborEntry : adjacencyList.get(current).entrySet()) {
+				T neighbor = neighborEntry.getKey();
+				int newDist = distances.get(current) + neighborEntry.getValue();
+
+				if (newDist < distances.get(neighbor)) {
+					distances.put(neighbor, newDist);
+
+					// Update priority queue
+					if (!explored.contains(neighbor)) {
+						queue.add(neighbor);
+					}
+				}
 			}
 		}
 
-		List<T> order = new ArrayList<>();
-		while (!stack.isEmpty()) {
-			order.add(stack.pop());
-		}
-		return order;
+		return distances;
 	}
-
 
 	@Override
 	public String toString() {
 		String ret = new String();
-		for (Map.Entry<T, Set<T>> vertex : adjacencyList.entrySet())
+		for (Map.Entry<T, Map<T, Integer>> vertex : adjacencyList.entrySet())
 			ret += vertex.getKey() + ": " + vertex.getValue() + "\n";
 		return ret;
 	}

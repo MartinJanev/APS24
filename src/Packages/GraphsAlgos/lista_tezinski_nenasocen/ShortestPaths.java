@@ -1,4 +1,4 @@
-package Packages.GraphAlgos;
+package Packages.GraphsAlgos.lista_tezinski_nenasocen;
 
 import java.util.Map;
 import java.util.Scanner;
