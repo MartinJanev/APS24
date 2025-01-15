@@ -2,7 +2,7 @@ package Labs.Kolokvium2.Drva;
 
 import java.util.*;
 
-public class drvoOdDoma {
+public class LisjaOpstoDrvo {
     interface Tree<E> {
         // //////////Accessors ////////////
 

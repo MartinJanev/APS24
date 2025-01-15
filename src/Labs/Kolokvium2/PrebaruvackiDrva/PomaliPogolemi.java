@@ -31,8 +31,8 @@ public class PomaliPogolemi {
 
     static int bigger(BNode<Integer> node, int target) {
         if (node == null) return 0;
-        if (node.info <= target) return smaller(node.right, target);
-        return bigger(node.right, target) + bigger(node.right, target) + 1;
+        if (node.info <= target) return bigger(node.right, target);
+        return bigger(node.left, target) + bigger(node.right, target) + 1;
     }
 
 

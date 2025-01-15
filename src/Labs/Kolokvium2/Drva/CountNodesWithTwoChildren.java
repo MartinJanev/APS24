@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
-public class MaxDepthBTree {
+public class CountNodesWithTwoChildren {
 
     static class BTree<E> {
 
@@ -110,15 +110,12 @@ public class MaxDepthBTree {
 //
 //            }
 //            System.out.println();
-//
 //        }
 
         int insideNodesR(BNode<E> node) {
-            if (node == null)
-                return 0;
+            if (node == null) return 0;
 
-            if ((node.left == null) && (node.right == null))
-                return 0;
+            if ((node.left == null) && (node.right == null)) return 0;
 
             return insideNodesR(node.left) + insideNodesR(node.right) + 1;
         }
@@ -129,10 +126,8 @@ public class MaxDepthBTree {
 
         int leavesR(BNode<E> node) {
             if (node != null) {
-                if ((node.left == null) && (node.right == null))
-                    return 1;
-                else
-                    return (leavesR(node.left) + leavesR(node.right));
+                if ((node.left == null) && (node.right == null)) return 1;
+                else return (leavesR(node.left) + leavesR(node.right));
             } else {
                 return 0;
             }
@@ -143,10 +138,8 @@ public class MaxDepthBTree {
         }
 
         int depthR(BNode<E> node) {
-            if (node == null)
-                return 0;
-            if ((node.left == null) && (node.right == null))
-                return 1;
+            if (node == null) return 0;
+            if ((node.left == null) && (node.right == null)) return 1;
             return (1 + Math.max(depthR(node.left), depthR(node.right)));
         }
 
@@ -157,8 +150,7 @@ public class MaxDepthBTree {
         void mirrorR(BNode<E> node) {
             BNode<E> tmp;
 
-            if (node == null)
-                return;
+            if (node == null) return;
 
             // simetricno preslikuvanje na levoto i desnoto potsteblo
             mirrorR(node.left);
@@ -212,49 +204,54 @@ public class MaxDepthBTree {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] is = br.readLine().split(" ");
-        int n = Integer.parseInt(is[0]) + Integer.parseInt(is[1]);
-
+        String[] s = br.readLine().split("\\s+");
+        int N = Integer.parseInt(s[0]) + Integer.parseInt(s[1]);
         BTree<String> tree = new BTree<>();
-        for (int i = 0; i < n; i++) {
-            String[] token = br.readLine().split(" ");
-            if (token[0].equals("root")) {
-                String rootValue = token[1];
-                tree.makeRoot(rootValue);
-            } else if (token[0].equals("add")) {
-                String parentValue = token[1];
-                String childValue = token[2];
-                String direction = token[3];
 
-                int dir = 0;
-                if (direction.equals("LEFT")) {
-                    dir = 1;
-                } else if (direction.equals("RIGHT")) {
-                    dir = 2;
+        for (int i = 0; i < N; i++) {
+            String[] tokens = br.readLine().split("\\s+");
+            if (Objects.equals(tokens[0], "root")) {
+                String root = tokens[1];
+                tree.makeRoot(root);
+            } else if (Objects.equals(tokens[0], "add")) {
+                String parValue = tokens[1];
+                String childValue = tokens[2];
+                String direction = tokens[3];
+
+                int d = 0;
+                if (Objects.equals(direction, "LEFT")) {
+                    d = 1;
+                } else if (Objects.equals(direction, "RIGHT")) {
+                    d = 2;
                 }
-
-                BNode<String> parentNode = find(tree.root, parentValue);
-                tree.addChild(parentNode, dir, childValue);
-            } else if (token[0].equals("ask")) {
-                String childVal = token[1];
-                BNode<String> child = find(tree.root, childVal);
-                int dlabocina = tree.depthR(child);
-                System.out.println(dlabocina);
+                BNode<String> parentNode = find(tree.root, parValue);
+                tree.addChild(parentNode, d, childValue);
+            } else {
+                String nodeValue = tokens[1];
+                BNode<String> node = find(tree.root, nodeValue);
+                tree.preorder();
+                System.out.println("==========");
+                System.out.println(countNodesWithTwoChildren(node));
             }
         }
     }
 
-    static BNode<String> find(BNode<String> node, String target) {
+    public static int countNodesWithTwoChildren(BNode<String> node) {
+        if (node == null) return 0;
+        if (node.left != null && node.right != null)
+            return 1 + countNodesWithTwoChildren(node.left) + countNodesWithTwoChildren(node.right);
+        return countNodesWithTwoChildren(node.left) + countNodesWithTwoChildren(node.right);
+    }
+
+
+    public static BNode<String> find(BNode<String> node, String value) {
         if (node == null) return null;
-        if (Objects.equals(node.info, target)) return node;
+        if (Objects.equals(node.info, value)) return node;
 
-        BNode<String> levo = find(node.left, target);
-        BNode<String> desno = find(node.right, target);
+        BNode<String> left = find(node.left, value);
+        BNode<String> right = find(node.right, value);
 
-        if (levo != null) {
-            return levo;
-        } else {
-            return desno;
-        }
+        if (left != null) return left;
+        else return right;
     }
 }

@@ -6,48 +6,38 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class SumaJazli {
+public class FacebookSimulator {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int numEdges = Integer.parseInt(br.readLine().trim());
-        AdjacencyListGraph<Integer> graph = new AdjacencyListGraph<>();
+        int n = Integer.parseInt(br.readLine().trim());
+        AdjacencyListGraph<String> graph = new AdjacencyListGraph<>();
 
-        for (int i = 0; i < numEdges; i++) {
-            String[] edge = br.readLine().split(" ");
-            int vertex1 = Integer.parseInt(edge[0]);
-            int vertex2 = Integer.parseInt(edge[1]);
-
-            graph.addEdge(vertex1, vertex2);
+        Set<String> nodes = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            String node = br.readLine().trim();
+            graph.addVertex(node);
+            nodes.add(node);
         }
 
-        int startVertex = Integer.parseInt(br.readLine().trim());
-        int targetSum = Integer.parseInt(br.readLine().trim());
+        int m = Integer.parseInt(br.readLine().trim());
+        for (int i = 0; i < m; i++) {
+            String[] tokens = br.readLine().split("\\s+");
+            String node1 = tokens[0];
+            String node2 = tokens[1];
 
-        //System.out.println(countPathsWithSum(graph, startVertex, targetSum)); //ako sakame filler
-        System.out.println(countPathsDFS(graph, startVertex, targetSum, startVertex));
-        //vtoroto e za inicijalizacija na zbirot so negovata vrednost
-
-    }
-//    public static int countPathsWithSum(AdjacencyListGraph<Integer> graph, int start, int suma) {
-//        return countPathsDFS(graph, start, suma, start);
-//    }
-
-    private static int countPathsDFS(AdjacencyListGraph<Integer> graph, int jazol, int suma, int momentalenSum) {
-        if (momentalenSum > suma) {
-            return 0;
-        }
-        if (momentalenSum == suma) {
-            return 1;
-        }
-        int patista = 0;
-
-        for (int neighbor : graph.getNeighbors(jazol)) {
-            int novZbir = momentalenSum + neighbor;
-            patista += countPathsDFS(graph, neighbor, suma, novZbir);
+            graph.addEdge(node1, node2);
         }
 
-        return patista;
+        int brojac = 0;
+        Set<String> visited = new HashSet<>();
+        for (String node : nodes) {
+            if (!visited.contains(node)) {
+                graph.DFSUtil(node, visited);
+                brojac++;
+            }
+        }
+        System.out.println(brojac);
     }
 
     static class AdjacencyListGraph<T> {
@@ -106,8 +96,6 @@ public class SumaJazli {
         private void DFSUtil(T vertex, Set<T> visited) {
             // Mark the current node as visited and print it
             visited.add(vertex);
-            System.out.print(vertex + " ");
-
             // Recur for all the vertices adjacent to this vertex
             for (T neighbor : getNeighbors(vertex)) {
                 if (!visited.contains(neighbor)) {
@@ -253,4 +241,5 @@ public class SumaJazli {
 
 
     }
+
 }

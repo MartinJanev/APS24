@@ -1,11 +1,12 @@
 package Labs.Kolokvium2.Drva;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
-public class MaxDepthBTree {
+public class SumDegrees {
 
     static class BTree<E> {
 
@@ -212,49 +213,55 @@ public class MaxDepthBTree {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] is = br.readLine().split(" ");
-        int n = Integer.parseInt(is[0]) + Integer.parseInt(is[1]);
-
+        String[] line = br.readLine().split("\\s+");
+        int N = Integer.parseInt(line[0]) + Integer.parseInt(line[1]);
         BTree<String> tree = new BTree<>();
-        for (int i = 0; i < n; i++) {
-            String[] token = br.readLine().split(" ");
-            if (token[0].equals("root")) {
-                String rootValue = token[1];
-                tree.makeRoot(rootValue);
-            } else if (token[0].equals("add")) {
-                String parentValue = token[1];
-                String childValue = token[2];
-                String direction = token[3];
 
-                int dir = 0;
-                if (direction.equals("LEFT")) {
-                    dir = 1;
-                } else if (direction.equals("RIGHT")) {
-                    dir = 2;
+        for (int i = 0; i < N; i++) {
+            String[] tokens = br.readLine().split("\\s+");
+            if (Objects.equals(tokens[0], "root")) {
+                String root = tokens[1];
+                tree.makeRoot(root);
+            } else if (Objects.equals(tokens[0], "add")) {
+                String parValue = tokens[1];
+                String childValue = tokens[2];
+                String direction = tokens[3];
+                int d = 0;
+                if (Objects.equals(direction, "LEFT")) {
+                    d = 1;
+                } else if (Objects.equals(direction, "RIGHT")) {
+                    d = 2;
                 }
 
-                BNode<String> parentNode = find(tree.root, parentValue);
-                tree.addChild(parentNode, dir, childValue);
-            } else if (token[0].equals("ask")) {
-                String childVal = token[1];
-                BNode<String> child = find(tree.root, childVal);
-                int dlabocina = tree.depthR(child);
-                System.out.println(dlabocina);
+                BNode<String> parentNode = find(tree.root, parValue);
+                tree.addChild(parentNode, d, childValue);
+            } else if (Objects.equals(tokens[0], "ask")) {
+                String nodeValue = tokens[1];
+                BNode<String> node = find(tree.root, nodeValue);
+                System.out.println(sumAllDegrees(node));
             }
         }
     }
 
-    static BNode<String> find(BNode<String> node, String target) {
-        if (node == null) return null;
-        if (Objects.equals(node.info, target)) return node;
+    static int sumAllDegrees(BNode<String> node) {
+        if (node == null) return 0;
 
-        BNode<String> levo = find(node.left, target);
-        BNode<String> desno = find(node.right, target);
+        int deg = 0;
+        if (node.left != null) deg++;
+        if (node.right != null) deg++;
 
-        if (levo != null) {
-            return levo;
-        } else {
-            return desno;
-        }
+        return deg + sumAllDegrees(node.left) + sumAllDegrees(node.right);
     }
+
+    public static BNode<String> find(BNode<String> node, String val) {
+        if (node == null) return null;
+        if (Objects.equals(val, node.info)) return node;
+
+        BNode<String> left = find(node.left, val);
+        BNode<String> right = find(node.right, val);
+
+        if (left != null) return left;
+        else return right;
+    }
+
 }
