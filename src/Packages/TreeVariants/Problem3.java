@@ -14,7 +14,23 @@ public class Problem3 {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>();
         for (int i = 0; i < n; i++) bst.insert(sc.nextInt());
         if (isBalanced(bst)) System.out.println("YES");
-        else System.out.println("NO");
+        else {
+            System.out.println("NO");
+            balanceTheTree(bst);
+        }
+    }
+
+    private static void balanceTheTree(BinarySearchTree<Integer> bst) {
+        BinarySearchTree<Integer> balanced = new BinarySearchTree<>();
+        balanceTheTree(bst.getRoot(), balanced);
+        balanced.printTreeWithIndent();
+    }
+
+    private static void balanceTheTree(BNode<Integer> node, BinarySearchTree<Integer> balanced) {
+        if (node == null) return;
+        balanceTheTree(node.left, balanced);
+        balanced.insert(node.info);
+        balanceTheTree(node.right, balanced);
     }
 
     private static boolean isBalanced(BinarySearchTree<Integer> bst) {

@@ -4,10 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-@SuppressWarnings("unchecked")
-public class NodeDistance {
-    static class BNode<E> {
+public class LCANode {
 
+    static class BNode<E> {
         public E info;
         public BNode<E> left;
         public BNode<E> right;
@@ -40,7 +39,6 @@ public class NodeDistance {
     }
 
     static class BTree<E> {
-
         public BNode<E> root;
 
         public BTree() {
@@ -60,115 +58,81 @@ public class NodeDistance {
         }
 
         public BNode<E> addChild(BNode<E> node, int where, E elem) {
-
             BNode<E> tmp = new BNode<E>(elem);
-
             if (where == BNode.LEFT) {
-                if (node.left != null)  // veke postoi element
+                if (node.left != null) // Already has a left child
                     return null;
                 node.left = tmp;
             } else {
-                if (node.right != null) // veke postoi element
+                if (node.right != null) // Already has a right child
                     return null;
                 node.right = tmp;
             }
-
             return tmp;
         }
 
         public BNode<E> addChildNode(BNode<E> node, int where, BNode<E> tmp) {
-
             if (where == BNode.LEFT) {
-                if (node.left != null)  // veke postoi element
+                if (node.left != null)  // Already has a left child
                     return null;
                 node.left = tmp;
             } else {
-                if (node.right != null) // veke postoi element
+                if (node.right != null) // Already has a right child
                     return null;
                 node.right = tmp;
             }
-
             return tmp;
         }
-
     }
 
+    // Function to find the Lowest Common Ancestor (LCA) of two nodes in the tree
+    public static BNode<String> lowestCommonAncestor(String from, String to, BNode<String> node) {
+        if (node == null) {
+            return null;  // Base case: if the node is null, return null
+        }
 
-    public static BNode<String> closestAncestor(String from, String to, BNode<String> node) {
-        if (node == null)
-            return null;
-
-        if (node.info.equals(from) || node.info.equals(to))
+        // If either 'from' or 'to' is found, return the current node
+        if (node.info.equals(from) || node.info.equals(to)) {
             return node;
+        }
 
-        BNode<String> tmp1 = closestAncestor(from, to, node.left);
-        BNode<String> tmp2 = closestAncestor(from, to, node.right);
+        // Recurse into both subtrees
+        BNode<String> leftLCA = lowestCommonAncestor(from, to, node.left);
+        BNode<String> rightLCA = lowestCommonAncestor(from, to, node.right);
 
-        if (tmp1 == null && tmp2 == null)
-            return null;
+        // If both left and right are non-null, this node is the LCA
+        if (leftLCA != null && rightLCA != null) {
+            return node;
+        }
 
-        if (tmp1 == null)
-            return tmp2;
-        if (tmp2 == null)
-            return tmp1;
-
-        return node;
+        // Otherwise, return the non-null child
+        return (leftLCA != null) ? leftLCA : rightLCA;
     }
 
-    public static int minDistance(String from, String to, BTree<String> tree) {
-        BNode<String> tmp = closestAncestor(from, to, tree.root);
-
-        int d1 = getLevel(from, tmp, 0);
-        int d2 = getLevel(to, tmp, 0);
-
-        if (d1 != -1 && d2 != -1)
-            return 2 * (d1 + d2);
-        else
-            return -1;
-    }
-
-    public static int getLevel(String val, BNode<String> node, int level) {
-        if (node == null)
-            return -1;
-        if (node.info.equals(val))
-            return level;
-
-        return Math.max(getLevel(val, node.left, level + 1), getLevel(val, node.right, level + 1));
-    }
-
+    // Main method to read input and process the tree
     public static void main(String[] args) throws Exception {
-        int i;
-        int index;
-        String direction;
-
-        String line;
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        int N = Integer.parseInt(br.readLine());
-
+        int N = Integer.parseInt(br.readLine());  // Number of nodes
         BNode<String> nodes[] = new BNode[N];
         BTree<String> tree = new BTree<String>();
 
-        for (i = 0; i < N; i++) {
+        // Initialize all nodes
+        for (int i = 0; i < N; i++) {
             nodes[i] = new BNode<String>();
         }
 
-        for (i = 0; i < N; i++) {
-            line = br.readLine();
-
+        // Read node information
+        for (int i = 0; i < N; i++) {
+            String line = br.readLine();
             st = new StringTokenizer(line);
-
-            index = Integer.parseInt(st.nextToken());
-
+            int index = Integer.parseInt(st.nextToken());
             nodes[index].info = st.nextToken();
-
-            direction = st.nextToken();
-
-            if (direction.equals("LEFT")) {
+            String action = st.nextToken();
+            if (action.equals("LEFT")) {
                 tree.addChildNode(nodes[Integer.parseInt(st.nextToken())], BNode.LEFT, nodes[index]);
-            } else if (direction.equals("RIGHT")) {
+            } else if (action.equals("RIGHT")) {
                 tree.addChildNode(nodes[Integer.parseInt(st.nextToken())], BNode.RIGHT, nodes[index]);
             } else {
                 // this node is the root
@@ -176,25 +140,24 @@ public class NodeDistance {
             }
         }
 
-
+        // Process queries
         int cases = Integer.parseInt(br.readLine());
         for (int l = 0; l < cases; l++) {
             String split[] = br.readLine().split(" +");
             String from = split[0];
             String to = split[1];
 
-            int minDistance = minDistance(from, to, tree);
+            // Find the LCA of 'from' and 'to'
+            BNode<String> lcaNode = lowestCommonAncestor(from, to, tree.root);
 
-            if (minDistance != -1) {
-                System.out.println(minDistance);
+            // Output the result
+            if (lcaNode != null) {
+                System.out.println(lcaNode.info);  // Output the value of the LCA node
             } else {
-                System.out.println("ERROR");
+                System.out.println("ERROR");  // If no common ancestor is found
             }
-
         }
+
         br.close();
-
-
     }
-
 }

@@ -327,11 +327,9 @@ public class Problem9 {
         }
 
         BNode<Integer> leftSearch = findNode(node.left, target);
-        if (leftSearch != null) {
-            return leftSearch;
-        }
-
-        return findNode(node.right, target);
+        BNode<Integer> rightSearch = findNode(node.right, target);
+        if (leftSearch != null) return leftSearch;
+        else return rightSearch;
     }
 
     // Method to get the path from a node to the root

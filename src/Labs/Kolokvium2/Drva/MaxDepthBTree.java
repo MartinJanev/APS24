@@ -150,8 +150,15 @@ public class MaxDepthBTree {
             return (1 + Math.max(depthR(node.left), depthR(node.right)));
         }
 
+        int depthR2(BNode<E> node) {
+            if (node == null)
+                return 0;
+            return Math.max(depthR(node.left), depthR(node.right));
+        }
+
         public int depth() {
-            return depthR(root);
+//            return depthR(root);
+            return depthR2(root);
         }
 
         void mirrorR(BNode<E> node) {
@@ -238,7 +245,7 @@ public class MaxDepthBTree {
             } else if (token[0].equals("ask")) {
                 String childVal = token[1];
                 BNode<String> child = find(tree.root, childVal);
-                int dlabocina = tree.depthR(child);
+                int dlabocina = tree.depth();
                 System.out.println(dlabocina);
             }
         }

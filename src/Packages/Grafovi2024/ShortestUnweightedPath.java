@@ -1,5 +1,21 @@
 package Packages.Grafovi2024;
 
+//13
+//Denver,Kansas
+//Kansas,Chicago
+//Kansas,Cincinnati
+//Chicago,Detroit
+//Cincinnati,Dallas
+//Cincinnati,Charleston
+//Cincinnati,Washington
+//Washington,Charleston
+//Detroit,Washington
+//Washington,New York
+//Detroit,Boston
+//Boston,New York
+//Cincinnati,Detroit
+//Boston
+//Kansas City
 
 import java.util.Scanner;
 

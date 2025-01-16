@@ -24,7 +24,10 @@ public class AdjacencyListGraphTester {
         graph.BFS('A');
 
         System.out.println("\n=================");
-        System.out.println(graph.toAdjacencyMatrixGraph());
+//        System.out.println(graph.toAdjacencyMatrixGraph());
+        System.out.println("\n=================");
+        System.out.println(graph.shortestPath('A', 'G'));
+        graph.findPath('A', 'G');
 
     }
 

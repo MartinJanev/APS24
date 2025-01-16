@@ -24,6 +24,8 @@ public class TopologicalSortTester {
         g.addEdge(6, 8);
 
         System.out.println(g.topologicalSort());
+        System.out.println("====");
+        System.out.println(g.topologicalMap());
 
 
     }

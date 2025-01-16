@@ -28,6 +28,12 @@ public class BTreeTest {
 
         tree.mirror();
         tree.inorder();
+
+        System.out.println("===");
+        tree.BFS();
+        System.out.println("===");
+        tree.DFS();
+
     }
 
 }

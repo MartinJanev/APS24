@@ -62,6 +62,26 @@ public class PatekaMegjuListovi {
             return t;
         }
 
+        public boolean isEmpty() {
+            return root == null;
+        }
+
+        public void printTree() {
+            if (isEmpty()) {
+                System.out.println("Empty tree");
+            } else {
+                printTree(root);
+            }
+        }
+
+        private void printTree(BNode t) {
+            if (t != null) {
+                printTree(t.left);
+                System.out.println(t.info);
+                printTree(t.right);
+            }
+        }
+
         // A utility function to find the maximum sum between any two leaves.
 //This function calculates two values:
 // 1) Maximum path sum between two leaves which is stored in res.
@@ -111,5 +131,6 @@ public class PatekaMegjuListovi {
         }
         br.close();
         System.out.println(tree.maxPathSum(tree.root));
+        tree.printTree();
     }
 }

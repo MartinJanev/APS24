@@ -1,7 +1,6 @@
 package Packages.Tree.BinaryTree;
 
-import Packages.Hashing.SLLNode;
-import Zadaci.NiziListi.SLL;
+import java.util.*;
 
 public class BTree<E> {
 
@@ -157,6 +156,47 @@ public class BTree<E> {
         }
         System.out.println();
     }
+
+    public void BFS() {
+        ArrayQueue<BNode<E>> q = new ArrayQueue<BNode<E>>(100);
+        BNode<E> p = root;
+        System.out.print("BFS: ");
+        if (p == null) return; // Handle an empty tree
+
+        q.enqueue(p);
+        while (!q.isEmpty()) {
+            p = q.dequeue();
+            System.out.print(p.info.toString() + " ");
+            if (p.left != null) {
+                q.enqueue(p.left);
+            }
+            if (p.right != null) {
+                q.enqueue(p.right);
+            }
+        }
+        System.out.println();
+    }
+
+    public void DFS(){
+        ArrayStack<BNode<E>> s = new ArrayStack<BNode<E>>(100);
+        BNode<E> p = root;
+        System.out.print("DFS: ");
+        if (p == null) return; // Handle an empty tree
+
+        s.push(p);
+        while (!s.isEmpty()) {
+            p = s.pop();
+            System.out.print(p.info.toString() + " ");
+            if (p.right != null) {
+                s.push(p.right);
+            }
+            if (p.left != null) {
+                s.push(p.left);
+            }
+        }
+        System.out.println();
+    }
+
 
     public int prebrojVnatresni() {
         return prebrojVnatresniR(root);
